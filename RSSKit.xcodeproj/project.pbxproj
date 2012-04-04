@@ -8,15 +8,40 @@
 
 /* Begin PBXBuildFile section */
 		BF3A6F78152C100A0020B7C5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF3A6F77152C100A0020B7C5 /* Foundation.framework */; };
-		BF3A6F7E152C100A0020B7C5 /* RSSKit.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3A6F7D152C100A0020B7C5 /* RSSKit.m */; };
+		BF3A6F92152C10270020B7C5 /* NSMutableString+RSSKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3A6F84152C10270020B7C5 /* NSMutableString+RSSKit.h */; };
+		BF3A6F93152C10270020B7C5 /* NSMutableString+RSSKit.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3A6F85152C10270020B7C5 /* NSMutableString+RSSKit.m */; };
+		BF3A6F94152C10270020B7C5 /* RSSAttachedMedia.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3A6F86152C10270020B7C5 /* RSSAttachedMedia.h */; };
+		BF3A6F95152C10270020B7C5 /* RSSAttachedMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3A6F87152C10270020B7C5 /* RSSAttachedMedia.m */; };
+		BF3A6F96152C10270020B7C5 /* RSSCloudService.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3A6F88152C10270020B7C5 /* RSSCloudService.h */; };
+		BF3A6F97152C10270020B7C5 /* RSSCloudService.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3A6F89152C10270020B7C5 /* RSSCloudService.m */; };
+		BF3A6F98152C10270020B7C5 /* RSSDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3A6F8A152C10270020B7C5 /* RSSDefines.h */; };
+		BF3A6F99152C10270020B7C5 /* RSSEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3A6F8B152C10270020B7C5 /* RSSEntry.h */; };
+		BF3A6F9A152C10270020B7C5 /* RSSEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3A6F8C152C10270020B7C5 /* RSSEntry.m */; };
+		BF3A6F9B152C10270020B7C5 /* RSSFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3A6F8D152C10270020B7C5 /* RSSFeed.h */; };
+		BF3A6F9C152C10270020B7C5 /* RSSFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3A6F8E152C10270020B7C5 /* RSSFeed.m */; };
+		BF3A6F9D152C10270020B7C5 /* RSSKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3A6F8F152C10270020B7C5 /* RSSKit.h */; };
+		BF3A6F9E152C10270020B7C5 /* RSSParser.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3A6F90152C10270020B7C5 /* RSSParser.h */; };
+		BF3A6F9F152C10270020B7C5 /* RSSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3A6F91152C10270020B7C5 /* RSSParser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BF3A6F74152C100A0020B7C5 /* libRSSKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRSSKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF3A6F77152C100A0020B7C5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		BF3A6F7B152C100A0020B7C5 /* RSSKit-Prefix.pch */ = {isa = PBXFileReference; path = "RSSKit-Prefix.pch"; sourceTree = "<group>"; };
-		BF3A6F7C152C100A0020B7C5 /* RSSKit.h */ = {isa = PBXFileReference; path = RSSKit.h; sourceTree = "<group>"; };
-		BF3A6F7D152C100A0020B7C5 /* RSSKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSSKit.m; sourceTree = "<group>"; };
+		BF3A6F7B152C100A0020B7C5 /* RSSKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RSSKit-Prefix.pch"; sourceTree = "<group>"; };
+		BF3A6F84152C10270020B7C5 /* NSMutableString+RSSKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+RSSKit.h"; sourceTree = "<group>"; };
+		BF3A6F85152C10270020B7C5 /* NSMutableString+RSSKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+RSSKit.m"; sourceTree = "<group>"; };
+		BF3A6F86152C10270020B7C5 /* RSSAttachedMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSAttachedMedia.h; sourceTree = "<group>"; };
+		BF3A6F87152C10270020B7C5 /* RSSAttachedMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSAttachedMedia.m; sourceTree = "<group>"; };
+		BF3A6F88152C10270020B7C5 /* RSSCloudService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSCloudService.h; sourceTree = "<group>"; };
+		BF3A6F89152C10270020B7C5 /* RSSCloudService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSCloudService.m; sourceTree = "<group>"; };
+		BF3A6F8A152C10270020B7C5 /* RSSDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSDefines.h; sourceTree = "<group>"; };
+		BF3A6F8B152C10270020B7C5 /* RSSEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSEntry.h; sourceTree = "<group>"; };
+		BF3A6F8C152C10270020B7C5 /* RSSEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSEntry.m; sourceTree = "<group>"; };
+		BF3A6F8D152C10270020B7C5 /* RSSFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSFeed.h; sourceTree = "<group>"; };
+		BF3A6F8E152C10270020B7C5 /* RSSFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSFeed.m; sourceTree = "<group>"; };
+		BF3A6F8F152C10270020B7C5 /* RSSKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSSKit.h; path = RSSKit/RSSKit.h; sourceTree = "<group>"; };
+		BF3A6F90152C10270020B7C5 /* RSSParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSParser.h; sourceTree = "<group>"; };
+		BF3A6F91152C10270020B7C5 /* RSSParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,7 +59,9 @@
 		BF3A6F69152C100A0020B7C5 = {
 			isa = PBXGroup;
 			children = (
+				BF3A6F8F152C10270020B7C5 /* RSSKit.h */,
 				BF3A6F79152C100A0020B7C5 /* RSSKit */,
+				BF3A6F7A152C100A0020B7C5 /* Supporting Files */,
 				BF3A6F76152C100A0020B7C5 /* Frameworks */,
 				BF3A6F75152C100A0020B7C5 /* Products */,
 			);
@@ -59,9 +86,18 @@
 		BF3A6F79152C100A0020B7C5 /* RSSKit */ = {
 			isa = PBXGroup;
 			children = (
-				BF3A6F7C152C100A0020B7C5 /* RSSKit.h */,
-				BF3A6F7D152C100A0020B7C5 /* RSSKit.m */,
-				BF3A6F7A152C100A0020B7C5 /* Supporting Files */,
+				BF3A6FA0152C10730020B7C5 /* Utils */,
+				BF3A6F86152C10270020B7C5 /* RSSAttachedMedia.h */,
+				BF3A6F87152C10270020B7C5 /* RSSAttachedMedia.m */,
+				BF3A6F88152C10270020B7C5 /* RSSCloudService.h */,
+				BF3A6F89152C10270020B7C5 /* RSSCloudService.m */,
+				BF3A6F8A152C10270020B7C5 /* RSSDefines.h */,
+				BF3A6F8B152C10270020B7C5 /* RSSEntry.h */,
+				BF3A6F8C152C10270020B7C5 /* RSSEntry.m */,
+				BF3A6F8D152C10270020B7C5 /* RSSFeed.h */,
+				BF3A6F8E152C10270020B7C5 /* RSSFeed.m */,
+				BF3A6F90152C10270020B7C5 /* RSSParser.h */,
+				BF3A6F91152C10270020B7C5 /* RSSParser.m */,
 			);
 			path = RSSKit;
 			sourceTree = "<group>";
@@ -72,6 +108,16 @@
 				BF3A6F7B152C100A0020B7C5 /* RSSKit-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			path = RSSKit;
+			sourceTree = "<group>";
+		};
+		BF3A6FA0152C10730020B7C5 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				BF3A6F84152C10270020B7C5 /* NSMutableString+RSSKit.h */,
+				BF3A6F85152C10270020B7C5 /* NSMutableString+RSSKit.m */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -81,6 +127,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF3A6F92152C10270020B7C5 /* NSMutableString+RSSKit.h in Headers */,
+				BF3A6F94152C10270020B7C5 /* RSSAttachedMedia.h in Headers */,
+				BF3A6F96152C10270020B7C5 /* RSSCloudService.h in Headers */,
+				BF3A6F98152C10270020B7C5 /* RSSDefines.h in Headers */,
+				BF3A6F99152C10270020B7C5 /* RSSEntry.h in Headers */,
+				BF3A6F9B152C10270020B7C5 /* RSSFeed.h in Headers */,
+				BF3A6F9D152C10270020B7C5 /* RSSKit.h in Headers */,
+				BF3A6F9E152C10270020B7C5 /* RSSParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,7 +188,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF3A6F7E152C100A0020B7C5 /* RSSKit.m in Sources */,
+				BF3A6F93152C10270020B7C5 /* NSMutableString+RSSKit.m in Sources */,
+				BF3A6F95152C10270020B7C5 /* RSSAttachedMedia.m in Sources */,
+				BF3A6F97152C10270020B7C5 /* RSSCloudService.m in Sources */,
+				BF3A6F9A152C10270020B7C5 /* RSSEntry.m in Sources */,
+				BF3A6F9C152C10270020B7C5 /* RSSFeed.m in Sources */,
+				BF3A6F9F152C10270020B7C5 /* RSSParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
