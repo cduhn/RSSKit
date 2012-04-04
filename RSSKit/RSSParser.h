@@ -11,6 +11,12 @@
 #import "RSSFeed.h"
 #import "RSSEntry.h"
 
+
+// Errors
+#define RSSErrorDomain @"RSSKit"
+#define RSSErrorCodeConnectionFailed 1
+#define RSSErrorCodeNotInitialized   2
+
 @protocol RSSParserDelegate;
 
 
@@ -22,13 +28,16 @@
 	RSSFeed *feed;
 	RSSEntry *entry;
 	id <RSSParserDelegate> delegate;
+    NSURLConnection *urlConnection;
+    NSData *syncData;
+    NSMutableData *asyncData;
 }
 
 @property (nonatomic, assign) id <RSSParserDelegate> delegate;
 @property (nonatomic, retain) NSString *url;
-@property (nonatomic, assign) BOOL synchronous;
+@property (nonatomic, assign) BOOL async;
 
-- (id) initWithUrl:(NSString *)theUrl synchronous:(BOOL)sync;
+- (id) initWithUrl:(NSString *)theUrl asynchronous:(BOOL)sync;
 - (id) initWithUrl:(NSString *)theUrl;
 - (void) parse;
 

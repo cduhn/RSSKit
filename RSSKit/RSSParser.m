@@ -14,23 +14,17 @@
 
 @synthesize delegate;
 @synthesize url;
-@synthesize synchronous;
+@synthesize async;
 
-- (id) initWithUrl:(NSString *)theUrl synchronous:(BOOL)sync {
+- (id) initWithUrl:(NSString *)theUrl asynchronous:(BOOL)sync {
 	self = [super init];
 	self.url = theUrl;
-	self.synchronous = sync;
-	if (self.synchronous) {
-		NSURL *contentUrl = [[NSURL alloc] initWithString:self.url];
-		xmlParser = [[NSXMLParser alloc] initWithContentsOfURL:contentUrl];
-		[contentUrl release];
-		[xmlParser setDelegate:self];
-	}
-	return self;
+	self.async = sync;
+    return self;
 }
 
 - (id) initWithUrl:(NSString *)theUrl {
-	self = [self initWithUrl:theUrl synchronous:NO];
+	self = [self initWithUrl:theUrl asynchronous:NO];  // default is synchronous
 	return self;
 }
 
@@ -42,6 +36,9 @@
 - (void) dealloc {
 	[xmlParser setDelegate:NULL];
 	[xmlParser release];
+    [urlConnection release];
+    [syncData release];
+    [asyncData release];
 	self.url = NULL;
 	[super dealloc];
 }
@@ -49,13 +46,78 @@
 // self
 
 - (void) parse {
-	if (!self.synchronous) {
-		NSURL *contentUrl = [[NSURL alloc] initWithString:self.url];
-		xmlParser = [[NSXMLParser alloc] initWithContentsOfURL:contentUrl];
-		[contentUrl release];
-		[xmlParser setDelegate:self];
+    if(!delegate || url) {
+        [self dispatchErrorMessageToDelegate:@"Delegate or URL not specified" code:RSSErrorCodeNotInitialized];
+    }    
+    NSURL *contentUrl = [[NSURL alloc] initWithString:self.url];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:contentUrl
+                                                                cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData 
+                                                            timeoutInterval:60];
+    if (self.async) {
+        // Asynchronous
+        urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+		if (urlConnection) {
+			asyncData = [[NSMutableData alloc] init];
+		} else {
+            [self dispatchErrorMessageToDelegate:@"Asynchronous connection failed" code:RSSErrorCodeConnectionFailed];
+		}
+    } else {
+		// Synchronous
+        NSURLResponse *response = nil;
+		NSError *error = nil;
+        syncData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (syncData && !error) {
+            [self startParsingData:syncData];
+            syncData = nil;
+        } else {
+            [self dispatchErrorMessageToDelegate:@"Synchronous connection failed" code:RSSErrorCodeConnectionFailed];
+        }
+    }
+    // cleanup
+    [contentUrl release];
+    [request release];
+}
+
+- (void) startParsingData:(NSData*)data {
+    xmlParser = [[NSXMLParser alloc] initWithData:data];
+    [xmlParser setDelegate:self];
+    [xmlParser parse];
+}
+
+- (void) dispatchErrorMessageToDelegate:(NSString*) message code:(int)code {
+    NSError *error = [NSError errorWithDomain:RSSErrorDomain 
+                                        code:code 
+                                    userInfo:[NSDictionary dictionaryWithObject:message forKey:NSLocalizedDescriptionKey]];
+    if ([delegate respondsToSelector:@selector(feedParser:didFailWithError:)])
+        [delegate rssParser:self errorOccurred:error];
+}
+
+// NSURLConnectionDelegate
+
+- (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+	[asyncData setLength:0];
+}
+
+- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+	[asyncData appendData:data];
+}
+
+- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+	urlConnection = nil;
+	asyncData = nil;
+    if ([delegate respondsToSelector:@selector(rssParser:errorOccurred:)]) {
+		[delegate rssParser:self errorOccurred:error];
 	}
-	[xmlParser parse];
+}
+
+- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
+	[self startParsingData:asyncData]; 	// perform parsing
+    urlConnection = nil;
+    asyncData = nil;  
+}
+
+-(NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
+	return nil;
 }
 
 // NSXMLParserDelegate

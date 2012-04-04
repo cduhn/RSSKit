@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RSSKit/RSSDefines.h>
-#import <RSSKit/RSSFeed.h>
-#import <RSSKit/RSSEntry.h>
-#import <RSSKit/RSSParser.h>
-#import <RSSKit/RSSAttachedMedia.h>
-#import <RSSKit/RSSCloudService.h>
+#import <RSSDefines.h>
+#import <RSSFeed.h>
+#import <RSSEntry.h>
+#import <RSSParser.h>
+#import <RSSAttachedMedia.h>
+#import <RSSCloudService.h>
 
