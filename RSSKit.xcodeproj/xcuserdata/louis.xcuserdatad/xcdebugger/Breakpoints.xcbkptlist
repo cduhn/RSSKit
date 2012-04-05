@@ -8,13 +8,13 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "RSSKit/RSSParser.m"
-         timestampString = "355221403.721467"
+         timestampString = "355318573.088516"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "92"
-         endingLineNumber = "92"
-         landmarkName = "-dispatchErrorMessageToDelegate:code:"
-         landmarkType = "5">
+         startingLineNumber = "202"
+         endingLineNumber = "202"
+         landmarkName = "@implementation RSSParser"
+         landmarkType = "3">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

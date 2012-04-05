@@ -13,8 +13,13 @@
 @implementation RSSParser
 
 @synthesize delegate;
-@synthesize url;
-@synthesize async;
+@synthesize url, contentUrl, request, urlConnection, asyncData, async;
+@synthesize xmlParser, tagStack, tagPath, feed, entry;
+@synthesize parsing, failed, successful;
+
+
+#pragma mark -
+#pragma mark NSObject
 
 - (id) initWithUrl:(NSString *)theUrl asynchronous:(BOOL)sync {
 	self = [super init];
@@ -29,70 +34,154 @@
 }
 
 - (id) init {
-	self = [self initWithUrl:NULL];
+	self = [self initWithUrl:nil];
 	return self;
 }
 
 - (void) dealloc {
-	[xmlParser setDelegate:NULL];
-	[xmlParser release];
+    [url release];
+    [contentUrl release];
+    [request release];
     [urlConnection release];
-    [syncData release];
     [asyncData release];
-	self.url = NULL;
+    [xmlParser setDelegate:nil];
+	[xmlParser release];
+    [tagStack release];
+    [tagPath release];
+    [feed release];
+    [entry release];
 	[super dealloc];
 }
 
-// self
+
+#pragma mark - 
+#pragma mark Parsing
+
+- (void) reset {
+    self.contentUrl = nil;
+    self.request = nil;
+    self.urlConnection = nil;
+    self.asyncData = nil;
+    self.tagPath = nil;
+    self.tagStack = nil;
+    self.feed = nil;
+}
 
 - (void) parse {
-    if(!delegate || url) {
-        [self dispatchErrorMessageToDelegate:@"Delegate or URL not specified" code:RSSErrorCodeNotInitialized];
-    }    
-    NSURL *contentUrl = [[NSURL alloc] initWithString:self.url];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:contentUrl
-                                                                cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData 
-                                                            timeoutInterval:60];
+    
+    // reset vars
+    [self reset];
+    
+    // checks before parsing
+    if (!delegate || !url) {
+        [self parsingFailedWithDescription:@"Delegate or URL not specified" andErrorCode:RSSErrorCodeNotInitialized];
+        return;
+    }
+    if (parsing) {
+        [self parsingFailedWithDescription:@"Parsing is already in progress" andErrorCode:RSSErrorCodeNotInitialized];
+        return;
+    }
+    
+    // set state
+    parsing = YES;
+    failed = NO;
+    successful = NO;
+    
+    // create request
+    contentUrl = [[NSURL alloc] initWithString:self.url];
+    request = [[NSMutableURLRequest alloc] initWithURL:contentUrl
+                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData 
+                                       timeoutInterval:60];
+    
+    // download the feed
     if (self.async) {
+        
         // Asynchronous
         urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 		if (urlConnection) {
 			asyncData = [[NSMutableData alloc] init];
 		} else {
-            [self dispatchErrorMessageToDelegate:@"Asynchronous connection failed" code:RSSErrorCodeConnectionFailed];
+            [self parsingFailedWithDescription:@"Asynchronous connection failed" andErrorCode:RSSErrorCodeConnectionFailed];
 		}
+        
     } else {
+        
 		// Synchronous
         NSURLResponse *response = nil;
 		NSError *error = nil;
-        syncData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        if (syncData && !error) {
-            [self startParsingData:syncData];
-            syncData = nil;
+        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (data && !error) {
+            [self startParsingData:data];  // process
         } else {
-            [self dispatchErrorMessageToDelegate:@"Synchronous connection failed" code:RSSErrorCodeConnectionFailed];
+            [self parsingFailedWithDescription:@"Synchronous connection failed" andErrorCode:RSSErrorCodeConnectionFailed];
         }
+        
     }
-    // cleanup
-    [contentUrl release];
-    [request release];
 }
 
 - (void) startParsingData:(NSData*)data {
-    xmlParser = [[NSXMLParser alloc] initWithData:data];
-    [xmlParser setDelegate:self];
-    [xmlParser parse];
+    
+    if (data) {
+        // create parser
+        NSXMLParser *newXmlParser = [[NSXMLParser alloc] initWithData:data];
+        self.xmlParser = newXmlParser;
+        [newXmlParser release];
+        if (xmlParser) { 
+        
+            // Parse!
+            xmlParser.delegate = self;
+            [xmlParser parse]; 
+            self.xmlParser = nil; // Release after parse
+        
+        } else {
+            [self parsingFailedWithDescription:@"Feed is not a valid XML document" andErrorCode:RSSErrorCodeXmlParser];
+        }
+    }
+    
 }
 
-- (void) dispatchErrorMessageToDelegate:(NSString*) message code:(int)code {
+- (void) finishedParsing {
+    
+    if (!successful) {
+    
+        // set state
+        parsing = NO;
+        failed = NO;
+        successful = YES;
+    
+        // inform delegate 
+        if ([delegate respondsToSelector:@selector(rssParser:didParseFeed:)]) {
+            [delegate rssParser:self didParseFeed:feed];
+        }
+        
+        // reset
+        [self reset];
+    }
+}
+
+- (void) parsingFailedWithDescription:(NSString*)message andErrorCode:(int)code {
+    
+    // set state
+    parsing = NO;
+    failed = YES;
+    successful = NO;
+    
+    // reset
+    [self reset];
+    
+    // create error
     NSError *error = [NSError errorWithDomain:RSSErrorDomain 
                                         code:code 
                                     userInfo:[NSDictionary dictionaryWithObject:message forKey:NSLocalizedDescriptionKey]];
-    if ([delegate respondsToSelector:@selector(feedParser:didFailWithError:)])
-        [delegate rssParser:self errorOccurred:error];
+    
+    // inform delegate
+    if ([delegate respondsToSelector:@selector(rssParser:didFailWithError:)])
+        [delegate rssParser:self didFailWithError:error];
 }
 
-// NSURLConnectionDelegate
+
+#pragma mark -
+#pragma mark NSURLConnectionDelegate
 
 - (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	[asyncData setLength:0];
@@ -105,9 +194,9 @@
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	urlConnection = nil;
 	asyncData = nil;
-    if ([delegate respondsToSelector:@selector(rssParser:errorOccurred:)]) {
-		[delegate rssParser:self errorOccurred:error];
-	}
+    
+    // error
+    [self parsingFailedWithDescription:[error localizedDescription] andErrorCode:RSSErrorCodeConnectionFailed];
 }
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -120,30 +209,29 @@
 	return nil;
 }
 
-// NSXMLParserDelegate
+
+#pragma mark -
+#pragma mark NSXMLParserDelegate
 
 - (void) parserDidStartDocument:(NSXMLParser *)parser {
+	if ([delegate respondsToSelector:@selector(rssParserDidStartParsing:)]) {
+		[delegate rssParserDidStartParsing:self];
+    }
 	feed = [[RSSFeed alloc] init];
 	tagStack = [[NSMutableArray alloc] init];
 	tagPath = [[NSMutableString alloc] initWithString:@"/"];
 }
 
 - (void) parserDidEndDocument:(NSXMLParser *)parser {
-	[tagStack release];
-	[tagPath release];
-	if ([delegate respondsToSelector:@selector(rssParser:parsedFeed:)]) {
-		[delegate rssParser:self parsedFeed:feed];
-	}
-	[feed release];
+    
+    // parsing succeessful
+    [self finishedParsing];
 }
 
 - (void) parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)error {
-	[tagStack release];
-	[tagPath release];
-	[feed release];
-	if ([delegate respondsToSelector:@selector(rssParser:errorOccurred:)]) {
-		[delegate rssParser:self errorOccurred:error];
-	}
+
+    // error
+    [self parsingFailedWithDescription:[error localizedDescription] andErrorCode:RSSErrorCodeXmlParser];
 }
 
 - (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)element namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributes {
