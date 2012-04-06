@@ -90,7 +90,7 @@
     // create request
     contentUrl = [[NSURL alloc] initWithString:self.url];
     request = [[NSMutableURLRequest alloc] initWithURL:contentUrl
-                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData 
+                                           cachePolicy:NSURLRequestReloadRevalidatingCacheData
                                        timeoutInterval:60];
     
     // download the feed
@@ -334,16 +334,19 @@
 		if (term) {
 			// Atom 1.0
 			[entry.categories addObject:term];
+
 		} else {
 			// RSS 2.0
 			[entry.categories addObject:text];
 		}
 	} else if ([tagPath isEqualToString:@"/rss/channel/item/comments"] || [tagPath isEqualToString:@""]) {
 		entry.comments = text;
-	} else if ([tagPath isEqualToString:@"/rss/channel/item/author"] || [tagPath isEqualToString:@"/feed/entry/author/name"]) {
+	} else if ([tagPath isEqualToString:@"/rss/channel/item/author"] || [tagPath isEqualToString:@"/feed/entry/author/name"] || [tagPath isEqualToString:@"/rss/channel/item/dc:creator"]) {
 		entry.author = text;
 	} else if ([tagPath isEqualToString:@"/feed/entry/content"] || [tagPath isEqualToString:@"/rss/channel/item/content:encoded"]) {
-		entry.content = text;
+        entry.content = text;
+        // scan for first image in content html
+        entry.image = [self processImage:entry.content ? entry.content : entry.summary];
 	} else if ([tagPath isEqualToString:@"/rss/channel/item/enclosure"]) {	
 		RSSAttachedMedia *media = [[RSSAttachedMedia alloc] init];
 		media.url = [attributes objectForKey:@"url"];
@@ -377,6 +380,35 @@
 	NSMutableString *text = [context objectForKey:@"text"];
 	[text appendString:string];
 	[string release];
+}
+
+- (NSString *) processImage:(NSString *)htmlString {
+    
+    NSScanner *theScanner;
+    NSString *text = nil;
+    
+    theScanner = [NSScanner scannerWithString: htmlString];
+    
+    // find start of tag
+    [theScanner scanUpToString: @"<img src=\"" intoString: NULL];
+    if ([theScanner isAtEnd] == NO) {
+        NSInteger newLoc = [theScanner scanLocation] + 10;
+        [theScanner setScanLocation: newLoc];
+        
+        // find end of tag
+        [theScanner scanUpToString: @"\"" intoString: &text];
+    }
+    
+    // uri contain .jpg ?
+    NSString *format = @".jpg";
+    NSRange range = [text rangeOfString : format];
+    
+    if (range.location != NSNotFound) {
+        // found it!
+        return text;
+    }
+    
+    return nil;
 }
 
 @end

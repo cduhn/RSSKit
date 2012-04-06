@@ -1,2 +1,6 @@
 
 .DS_Store
+
+RSSKit/RSSImageParser.h
+
+RSSKit/RSSImageParser.m

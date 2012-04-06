@@ -22,6 +22,7 @@
 @synthesize copyright;
 @synthesize attachedMedia;
 @synthesize author;
+@synthesize image;
 
 - (id) init {
 	self = [super init];
@@ -43,6 +44,7 @@
 	self.copyright = NULL;
 	self.attachedMedia = NULL;
 	self.author = NULL;
+    self.image = NULL;
 	[super dealloc];
 }
 

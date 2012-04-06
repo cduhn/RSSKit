@@ -70,7 +70,7 @@
 @property (nonatomic, readonly) BOOL failed;
 @property (nonatomic, readonly) BOOL successful;
 
-// init RSSKit
+// init parser
 - (id) initWithUrl:(NSString *)theUrl asynchronous:(BOOL)sync;
 - (id) initWithUrl:(NSString *)theUrl;
 

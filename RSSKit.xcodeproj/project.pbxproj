@@ -283,6 +283,7 @@
 				BF3A6F83152C100A0020B7C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
