@@ -18,11 +18,33 @@
 @synthesize protocol;
 
 - (void) dealloc {
-	self.domain = NULL;
-	self.path = NULL;
-	self.procedure = NULL;
-	self.protocol = NULL;
+    [domain release];
+    [path release];
+    [procedure release];
+    [protocol release];
 	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark NSCoding Protocol
+
+- (id)initWithCoder:(NSCoder *)decoder {
+	if ((self = [super init])) {
+        domain = [[decoder decodeObjectForKey:@"domain"] retain];
+        port = [decoder decodeIntForKey:@"port"];
+        path = [[decoder decodeObjectForKey:@"path"] retain];
+        procedure = [[decoder decodeObjectForKey:@"procedure"] retain];
+        protocol = [[decoder decodeObjectForKey:@"protocol"] retain];
+	}
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:domain forKey:@"domain"];
+    [encoder encodeInt:port forKey:@"port"];
+    [encoder encodeObject:path forKey:@"path"];
+    [encoder encodeObject:procedure forKey:@"procedure"];
+    [encoder encodeObject:protocol forKey:@"protocol"];
 }
 
 @end

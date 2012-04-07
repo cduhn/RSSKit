@@ -27,32 +27,78 @@
 @synthesize iconUrl;
 @synthesize cloudService;
 
+
 - (id) init {
-	self = [super init];
-	NSMutableArray *theArticles = [[NSMutableArray alloc] init];
-	self.articles = theArticles;
-	[theArticles release];
-	NSMutableArray *theCategories = [[NSMutableArray alloc] init];
-	self.categories = theCategories;
-	[theCategories release];
+	if (self = [super init]) {
+        NSArray *theArticles = [[NSArray alloc] init];
+        self.articles = theArticles;
+        [theArticles release];
+        NSArray *theCategories = [[NSArray alloc] init];
+        self.categories = theCategories;
+        [theCategories release];
+
+    }
 	return self;
 }
 
+
 - (void) dealloc {
-	self.title = NULL;
-	self.description = NULL;
-	self.url = NULL;
-	self.date = NULL;
-	self.author = NULL;
-	self.articles = NULL;
-	self.uid = NULL;
-	self.language = NULL;
-	self.copyright = NULL;
-	self.categories = NULL;
-	self.generator = NULL;
-	self.iconUrl = NULL;
-	self.cloudService = NULL;
+    [title release];
+    [description release];
+    [url release];
+    [date release];
+    [author release];
+    [articles release];
+    [uid release];
+    [language release];
+    [copyright release];
+    [categories release];
+    [generator release];
+    [iconUrl release];
+    [cloudService release];
 	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark NSCoding Protocol
+
+- (id)initWithCoder:(NSCoder *)decoder {
+	if ((self = [super init])) {
+        type = [decoder decodeIntForKey:@"type"];
+        title = [[decoder decodeObjectForKey:@"title"] retain];
+        description = [[decoder decodeObjectForKey:@"description"] retain];
+        url = [[decoder decodeObjectForKey:@"url"] retain];
+        date = [[decoder decodeObjectForKey:@"date"] retain];
+        author = [[decoder decodeObjectForKey:@"author"] retain];
+        articles = [[decoder decodeObjectForKey:@"articles"] retain];
+        uid = [[decoder decodeObjectForKey:@"uid"] retain];
+        language = [[decoder decodeObjectForKey:@"language"] retain];
+        copyright = [[decoder decodeObjectForKey:@"copyright"] retain];
+        categories = [[decoder decodeObjectForKey:@"categories"] retain];
+        generator = [[decoder decodeObjectForKey:@"generator"] retain];
+        validTime = [decoder decodeFloatForKey:@"validTime"];
+        iconUrl = [[decoder decodeObjectForKey:@"iconUrl"] retain];
+        cloudService = [[decoder decodeObjectForKey:@"cloudService"] retain];
+	}
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeInt:type forKey:@"type"];
+    [encoder encodeObject:title forKey:@"title"];
+    [encoder encodeObject:description forKey:@"description"];
+    [encoder encodeObject:url forKey:@"url"];
+    [encoder encodeObject:date forKey:@"date"];
+    [encoder encodeObject:author forKey:@"author"];
+    [encoder encodeObject:articles forKey:@"articles"];
+    [encoder encodeObject:uid forKey:@"uid"];
+    [encoder encodeObject:language forKey:@"language"];
+    [encoder encodeObject:copyright forKey:@"copyright"];
+    [encoder encodeObject:categories forKey:@"categories"];
+    [encoder encodeObject:generator forKey:@"generator"];
+    [encoder encodeFloat:validTime forKey:@"validTime"];
+    [encoder encodeObject:iconUrl forKey:@"inconUrl"];
+    [encoder encodeObject:cloudService forKey:@"cloudService"];
 }
 
 @end

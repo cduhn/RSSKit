@@ -9,15 +9,16 @@
 #import <Foundation/Foundation.h>
 
 
-@interface RSSAttachedMedia: NSObject {
+@interface RSSAttachedMedia: NSObject <NSCoding> {
 	NSString *url;
+    NSString *type;
 	int length;
-	NSString *type;
 }
 
-@property (nonatomic, retain) NSString *url;
-@property (nonatomic, assign) int length;
-@property (nonatomic, retain) NSString *type;
+@property (nonatomic, copy) NSString *url;
+@property (nonatomic, copy) NSString *type;
+@property (nonatomic) int length;
+
 
 @end
 

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface RSSCloudService: NSObject {
+@interface RSSCloudService: NSObject <NSCoding> {
 	NSString *domain;
 	int port;
 	NSString *path;
@@ -17,11 +17,11 @@
 	NSString *protocol;
 }
 
-@property (nonatomic, retain) NSString *domain;
-@property (nonatomic, assign) int port;
-@property (nonatomic, retain) NSString *path;
-@property (nonatomic, retain) NSString *procedure;
-@property (nonatomic, retain) NSString *protocol;
+@property (nonatomic, copy) NSString *domain;
+@property (nonatomic) int port;
+@property (nonatomic, copy) NSString *path;
+@property (nonatomic, copy) NSString *procedure;
+@property (nonatomic, copy) NSString *protocol;
 
 @end
 

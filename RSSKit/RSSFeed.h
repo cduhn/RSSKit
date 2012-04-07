@@ -11,39 +11,39 @@
 #import "RSSDefines.h"
 
 
-@interface RSSFeed: NSObject {
+@interface RSSFeed: NSObject <NSCoding> {
 	RSSFeedType type;
 	NSString *title;
 	NSString *description;
 	NSString *url;
 	NSString *date;
 	NSString *author;
-	NSMutableArray *articles;
+    NSArray *articles;
 	NSString *uid;
 	NSString *language;
 	NSString *copyright;
-	NSMutableArray *categories;
+    NSArray *categories;
 	NSString *generator;
-	NSTimeInterval validTime;
+	float validTime;
 	NSString *iconUrl;
 	RSSCloudService *cloudService;
 }
 
-@property (nonatomic, assign) RSSFeedType type;
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *description;
-@property (nonatomic, retain) NSString *url;
-@property (nonatomic, retain) NSString *date;
-@property (nonatomic, retain) NSString *author;
-@property (nonatomic, retain) NSMutableArray *articles;
-@property (nonatomic, retain) NSString *uid;
-@property (nonatomic, retain) NSString *language;
-@property (nonatomic, retain) NSString *copyright;
-@property (nonatomic, retain) NSMutableArray *categories;
-@property (nonatomic, retain) NSString *generator;
-@property (nonatomic, assign) NSTimeInterval validTime;
-@property (nonatomic, retain) NSString *iconUrl;
-@property (nonatomic, retain) RSSCloudService *cloudService;
+@property (nonatomic) RSSFeedType type;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *description;
+@property (nonatomic, copy) NSString *url;
+@property (nonatomic, copy) NSString *date;
+@property (nonatomic, copy) NSString *author;
+@property (nonatomic, copy) NSArray *articles;
+@property (nonatomic, copy) NSString *uid;
+@property (nonatomic, copy) NSString *language;
+@property (nonatomic, copy) NSString *copyright;
+@property (nonatomic, copy) NSArray *categories;
+@property (nonatomic, copy) NSString *generator;
+@property (nonatomic) float validTime;
+@property (nonatomic, copy) NSString *iconUrl;
+@property (nonatomic, copy) RSSCloudService *cloudService;
 
 
 @end

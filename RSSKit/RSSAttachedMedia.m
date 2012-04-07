@@ -16,9 +16,27 @@
 @synthesize type;
 
 - (void) dealloc {
-	self.url = NULL;
-	self.type = NULL;
+	[url release];
+    [type release];
 	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark NSCoding Protocol
+
+- (id)initWithCoder:(NSCoder *)decoder {
+	if ((self = [super init])) {
+        url = [[decoder decodeObjectForKey:@"url"] retain];
+        type = [[decoder decodeObjectForKey:@"type"] retain];
+        length = [decoder decodeIntForKey:@"length"];
+	}
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:url forKey:@"url"];
+    [encoder encodeObject:type forKey:@"type"];
+    [encoder encodeInt:length forKey:@"length"];
 }
 
 @end

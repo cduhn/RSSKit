@@ -10,13 +10,13 @@
 #import "RSSAttachedMedia.h"
 
 
-@interface RSSEntry: NSObject {
+@interface RSSEntry: NSObject <NSCoding> {
 	NSString *title;
 	NSString *url;
 	NSString *uid;
 	NSString *date;
 	NSString *summary;
-	NSMutableArray *categories;
+	NSArray *categories;
 	NSString *comments;
 	NSString *content;
 	NSString *copyright;
@@ -25,18 +25,18 @@
     NSString *image;
 }
 
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *url;
-@property (nonatomic, retain) NSString *uid;
-@property (nonatomic, retain) NSString *date;
-@property (nonatomic, retain) NSString *summary;
-@property (nonatomic, retain) NSMutableArray *categories;
-@property (nonatomic, retain) NSString *comments;
-@property (nonatomic, retain) NSString *content;
-@property (nonatomic, retain) NSString *copyright;
-@property (nonatomic, retain) RSSAttachedMedia *attachedMedia;
-@property (nonatomic, retain) NSString *author;
-@property (nonatomic, retain) NSString *image;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *url;
+@property (nonatomic, copy) NSString *uid;
+@property (nonatomic, copy) NSString *date;
+@property (nonatomic, copy) NSString *summary;
+@property (nonatomic, copy) NSArray *categories;
+@property (nonatomic, copy) NSString *comments;
+@property (nonatomic, copy) NSString *content;
+@property (nonatomic, copy) NSString *copyright;
+@property (nonatomic, copy) RSSAttachedMedia *attachedMedia;
+@property (nonatomic, copy) NSString *author;
+@property (nonatomic, copy) NSString *image;
 
 @end
 

@@ -9,7 +9,6 @@
 #import "RSSParser.h"
 #import "NSMutableString+RSSKit.h"
 
-
 @implementation RSSParser
 
 @synthesize delegate;
@@ -218,6 +217,10 @@
 		[delegate rssParserDidStartParsing:self];
     }
 	feed = [[RSSFeed alloc] init];
+    
+    //feed.articles = [[NSMutableArray alloc] init];
+    //feed.categories = [[NSMutableArray alloc] init];
+    
 	tagStack = [[NSMutableArray alloc] init];
 	tagPath = [[NSMutableString alloc] initWithString:@"/"];
 }
@@ -285,10 +288,10 @@
 		NSString *term = [attributes objectForKey:@"term"];
 		if (term) {
 			// Atom 1.0
-			[feed.categories addObject:term];
+            feed.categories = [feed.articles arrayByAddingObject:term];
 		} else {
 			// RSS 2.0
-			[feed.categories addObject:text];
+            feed.categories = [feed.articles arrayByAddingObject:text];
 		}
 		
 	} else if ([tagPath isEqualToString:@"/rss/channel/generator"] || [tagPath isEqualToString:@"/feed/generator"]) {
@@ -333,11 +336,10 @@
 		NSString *term = [attributes objectForKey:@"term"];
 		if (term) {
 			// Atom 1.0
-			[entry.categories addObject:term];
-
+            entry.categories = [feed.categories arrayByAddingObject:term];
 		} else {
 			// RSS 2.0
-			[entry.categories addObject:text];
+            entry.categories = [feed.categories arrayByAddingObject:text];
 		}
 	} else if ([tagPath isEqualToString:@"/rss/channel/item/comments"] || [tagPath isEqualToString:@""]) {
 		entry.comments = text;
@@ -361,7 +363,7 @@
 	} else if ([tagPath isEqualToString:@"/feed/entry/rights"]) {
 		entry.copyright = text;
 	} else if ([tagPath isEqualToString:@"/rss/channel/item"] || [tagPath isEqualToString:@"/feed/entry"]) {
-		[feed.articles addObject:entry];
+        feed.articles = [feed.articles arrayByAddingObject:entry];
 		[entry release];
 	}
 	[tagStack removeLastObject];
