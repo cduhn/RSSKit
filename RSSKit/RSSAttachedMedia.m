@@ -15,19 +15,14 @@
 @synthesize length;
 @synthesize type;
 
-- (void) dealloc {
-	[url release];
-    [type release];
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark NSCoding Protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {
 	if ((self = [super init])) {
-        url = [[decoder decodeObjectForKey:@"url"] retain];
-        type = [[decoder decodeObjectForKey:@"type"] retain];
+        url = [decoder decodeObjectForKey:@"url"];
+        type = [decoder decodeObjectForKey:@"type"];
         length = [decoder decodeIntForKey:@"length"];
 	}
 	return self;
@@ -39,5 +34,13 @@
     [encoder encodeInt:length forKey:@"length"];
 }
 
+-(id)copyWithZone:(NSZone *)zone {
+    RSSAttachedMedia *copy = [[[self class] alloc] init];
+    copy.url = [self.url copyWithZone:zone];
+    copy.type = [self.type copyWithZone:zone];
+    copy.length = self.length;
+    
+    return copy;
+}
 @end
 

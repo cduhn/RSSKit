@@ -32,32 +32,14 @@
 	if (self = [super init]) {
         NSArray *theArticles = [[NSArray alloc] init];
         self.articles = theArticles;
-        [theArticles release];
         NSArray *theCategories = [[NSArray alloc] init];
         self.categories = theCategories;
-        [theCategories release];
 
     }
 	return self;
 }
 
 
-- (void) dealloc {
-    [title release];
-    [description release];
-    [url release];
-    [date release];
-    [author release];
-    [articles release];
-    [uid release];
-    [language release];
-    [copyright release];
-    [categories release];
-    [generator release];
-    [iconUrl release];
-    [cloudService release];
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark NSCoding Protocol
@@ -65,20 +47,20 @@
 - (id)initWithCoder:(NSCoder *)decoder {
 	if ((self = [super init])) {
         type = [decoder decodeIntForKey:@"type"];
-        title = [[decoder decodeObjectForKey:@"title"] retain];
-        description = [[decoder decodeObjectForKey:@"description"] retain];
-        url = [[decoder decodeObjectForKey:@"url"] retain];
-        date = [[decoder decodeObjectForKey:@"date"] retain];
-        author = [[decoder decodeObjectForKey:@"author"] retain];
-        articles = [[decoder decodeObjectForKey:@"articles"] retain];
-        uid = [[decoder decodeObjectForKey:@"uid"] retain];
-        language = [[decoder decodeObjectForKey:@"language"] retain];
-        copyright = [[decoder decodeObjectForKey:@"copyright"] retain];
-        categories = [[decoder decodeObjectForKey:@"categories"] retain];
-        generator = [[decoder decodeObjectForKey:@"generator"] retain];
+        title = [decoder decodeObjectForKey:@"title"];
+        description = [decoder decodeObjectForKey:@"description"];
+        url = [decoder decodeObjectForKey:@"url"];
+        date = [decoder decodeObjectForKey:@"date"];
+        author = [decoder decodeObjectForKey:@"author"];
+        articles = [decoder decodeObjectForKey:@"articles"];
+        uid = [decoder decodeObjectForKey:@"uid"];
+        language = [decoder decodeObjectForKey:@"language"];
+        copyright = [decoder decodeObjectForKey:@"copyright"];
+        categories = [decoder decodeObjectForKey:@"categories"];
+        generator = [decoder decodeObjectForKey:@"generator"];
         validTime = [decoder decodeFloatForKey:@"validTime"];
-        iconUrl = [[decoder decodeObjectForKey:@"iconUrl"] retain];
-        cloudService = [[decoder decodeObjectForKey:@"cloudService"] retain];
+        iconUrl = [decoder decodeObjectForKey:@"iconUrl"];
+        cloudService = [decoder decodeObjectForKey:@"cloudService"];
 	}
 	return self;
 }

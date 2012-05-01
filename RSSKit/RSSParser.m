@@ -38,18 +38,7 @@
 }
 
 - (void) dealloc {
-    [url release];
-    [contentUrl release];
-    [request release];
-    [urlConnection release];
-    [asyncData release];
     [xmlParser setDelegate:nil];
-	[xmlParser release];
-    [tagStack release];
-    [tagPath release];
-    [feed release];
-    [entry release];
-	[super dealloc];
 }
 
 
@@ -124,7 +113,6 @@
         // create parser
         NSXMLParser *newXmlParser = [[NSXMLParser alloc] initWithData:data];
         self.xmlParser = newXmlParser;
-        [newXmlParser release];
         if (xmlParser) { 
         
             // Parse!
@@ -253,9 +241,7 @@
 	[context setObject:attributes forKey:@"attributes"];
 	NSMutableString *text = [[NSMutableString alloc] init];
 	[context setObject:text forKey:@"text"];
-	[text release];
 	[tagStack addObject:context];
-	[context release];
 	[tagPath appendPathComponent:element];
 }
 
@@ -308,7 +294,6 @@
 		cloudService.procedure = [attributes objectForKey:@"registerProcedure"];
 		cloudService.protocol = [attributes objectForKey:@"protocol"];
 		feed.cloudService = cloudService;
-		[cloudService release];
 	} else if ([tagPath isEqualToString:@"/rss/channel/lastBuildDate"] || [tagPath isEqualToString:@"/feed/updated"]) {
 		feed.date = text;
 	} else if ([tagPath isEqualToString:@"/rss/channel/managingEditor"]) {
@@ -355,7 +340,6 @@
 		media.length = [[attributes objectForKey:@"length"] intValue];
 		media.type = [attributes objectForKey:@"type"];
 		entry.attachedMedia = media;
-		[media release];
 	} else if ([tagPath isEqualToString:@"/rss/channel/item/guid"] || [tagPath isEqualToString:@"/feed/entry/id"]) {
 		entry.uid = text;
 	} else if ([tagPath isEqualToString:@"/rss/channel/item/pubDate"] || [tagPath isEqualToString:@"/feed/entry/updated"]) {
@@ -364,7 +348,6 @@
 		entry.copyright = text;
 	} else if ([tagPath isEqualToString:@"/rss/channel/item"] || [tagPath isEqualToString:@"/feed/entry"]) {
         feed.articles = [feed.articles arrayByAddingObject:entry];
-		[entry release];
 	}
 	[tagStack removeLastObject];
 	[tagPath deleteLastPathComponent];
@@ -381,7 +364,6 @@
 	NSMutableDictionary *context = [tagStack lastObject];
 	NSMutableString *text = [context objectForKey:@"text"];
 	[text appendString:string];
-	[string release];
 }
 
 - (NSString *) processImage:(NSString *)htmlString {

@@ -17,24 +17,17 @@
 @synthesize procedure;
 @synthesize protocol;
 
-- (void) dealloc {
-    [domain release];
-    [path release];
-    [procedure release];
-    [protocol release];
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark NSCoding Protocol
 
 - (id)initWithCoder:(NSCoder *)decoder {
 	if ((self = [super init])) {
-        domain = [[decoder decodeObjectForKey:@"domain"] retain];
+        domain = [decoder decodeObjectForKey:@"domain"];
         port = [decoder decodeIntForKey:@"port"];
-        path = [[decoder decodeObjectForKey:@"path"] retain];
-        procedure = [[decoder decodeObjectForKey:@"procedure"] retain];
-        protocol = [[decoder decodeObjectForKey:@"protocol"] retain];
+        path = [decoder decodeObjectForKey:@"path"];
+        procedure = [decoder decodeObjectForKey:@"procedure"];
+        protocol = [decoder decodeObjectForKey:@"protocol"];
 	}
 	return self;
 }

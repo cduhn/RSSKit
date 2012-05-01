@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface RSSAttachedMedia: NSObject <NSCoding> {
+@interface RSSAttachedMedia: NSObject <NSCoding, NSCopying> {
 	NSString *url;
     NSString *type;
 	int length;

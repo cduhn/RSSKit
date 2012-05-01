@@ -24,7 +24,7 @@
 @interface RSSParser: NSObject <NSXMLParserDelegate>{
     
     // delegate
-    id <RSSParserDelegate> delegate;
+    id <RSSParserDelegate> __unsafe_unretained delegate;
 
     // network
     NSString *url;
@@ -48,22 +48,22 @@
 }
 
  // required!
-@property (nonatomic, assign) id <RSSParserDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id <RSSParserDelegate> delegate;
 
 // download properties
-@property (nonatomic, retain) NSString *url;
-@property (nonatomic, retain) NSURL *contentUrl;
-@property (nonatomic, retain) NSMutableURLRequest *request;
-@property (nonatomic, retain) NSURLConnection *urlConnection;
-@property (nonatomic, retain) NSMutableData *asyncData;
+@property (nonatomic) NSString *url;
+@property (nonatomic) NSURL *contentUrl;
+@property (nonatomic) NSMutableURLRequest *request;
+@property (nonatomic) NSURLConnection *urlConnection;
+@property (nonatomic) NSMutableData *asyncData;
 @property (nonatomic, assign) BOOL async;
 
 // parsing properties
-@property (nonatomic, retain) NSXMLParser *xmlParser;
-@property (nonatomic, retain) NSMutableArray *tagStack;
-@property (nonatomic, retain) NSMutableString *tagPath;
-@property (nonatomic, retain) RSSFeed *feed;
-@property (nonatomic, retain) RSSEntry *entry;
+@property (nonatomic) NSXMLParser *xmlParser;
+@property (nonatomic) NSMutableArray *tagStack;
+@property (nonatomic) NSMutableString *tagPath;
+@property (nonatomic) RSSFeed *feed;
+@property (nonatomic) RSSEntry *entry;
 
 // state properties
 @property (nonatomic, readonly) BOOL parsing;
