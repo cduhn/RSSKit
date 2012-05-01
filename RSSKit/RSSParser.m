@@ -52,7 +52,7 @@
     self.asyncData = nil;
     self.tagPath = nil;
     self.tagStack = nil;
-    self.feed = nil;
+    self.entry = nil;
 }
 
 - (void) parse {
