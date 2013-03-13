@@ -339,7 +339,12 @@
 		media.url = [attributes objectForKey:@"url"];
 		media.length = [[attributes objectForKey:@"length"] intValue];
 		media.type = [attributes objectForKey:@"type"];
-		entry.attachedMedia = media;
+        NSMutableArray *mediaEnclosures = [NSMutableArray array];
+        if (entry.attachedMediaEnclosures) {
+            [mediaEnclosures addObjectsFromArray:entry.attachedMediaEnclosures];
+        }
+        [mediaEnclosures addObject:media];
+        entry.attachedMediaEnclosures = mediaEnclosures;
 	} else if ([tagPath isEqualToString:@"/rss/channel/item/guid"] || [tagPath isEqualToString:@"/feed/entry/id"]) {
 		entry.uid = text;
 	} else if ([tagPath isEqualToString:@"/rss/channel/item/pubDate"] || [tagPath isEqualToString:@"/feed/entry/updated"]) {

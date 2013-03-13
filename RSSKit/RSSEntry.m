@@ -20,7 +20,7 @@
 @synthesize comments;
 @synthesize content;
 @synthesize copyright;
-@synthesize attachedMedia;
+@synthesize attachedMediaEnclosures;
 @synthesize author;
 @synthesize image;
 
@@ -48,7 +48,7 @@
         comments = [decoder decodeObjectForKey:@"comments"];
         content = [decoder decodeObjectForKey:@"content"];
         copyright = [decoder decodeObjectForKey:@"copyright"];
-        attachedMedia = [decoder decodeObjectForKey:@"attachedMedia"];
+        attachedMediaEnclosures = [decoder decodeObjectForKey:@"attachedMediaEnclosures"];
         author = [decoder decodeObjectForKey:@"author"];
         image = [decoder decodeObjectForKey:@"image"];
 	}
@@ -65,7 +65,7 @@
     [encoder encodeObject:comments forKey:@"comments"];
     [encoder encodeObject:content forKey:@"content"];
     [encoder encodeObject:copyright forKey:@"copyright"];
-    [encoder encodeObject:attachedMedia forKey:@"attachedMedia"];
+    [encoder encodeObject:attachedMediaEnclosures forKey:@"attachedMediaEnclosures"];
     [encoder encodeObject:author forKey:@"author"];
     [encoder encodeObject:image forKey:@"image"];
 }

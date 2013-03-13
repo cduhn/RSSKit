@@ -20,7 +20,7 @@
 	NSString *comments;
 	NSString *content;
 	NSString *copyright;
-	RSSAttachedMedia *attachedMedia;
+	NSArray *attachedMediaEnclosures;
 	NSString *author;
     NSString *image;
 }
@@ -34,7 +34,7 @@
 @property (nonatomic, copy) NSString *comments;
 @property (nonatomic, copy) NSString *content;
 @property (nonatomic, copy) NSString *copyright;
-@property (nonatomic, copy) RSSAttachedMedia *attachedMedia;
+@property (nonatomic, copy) NSArray *attachedMediaEnclosures;
 @property (nonatomic, copy) NSString *author;
 @property (nonatomic, copy) NSString *image;
 
